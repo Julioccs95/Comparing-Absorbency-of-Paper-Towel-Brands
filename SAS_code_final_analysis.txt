@@ -1,0 +1,19 @@
+proc import datafile="/home/u64146528/STAT615/STAT615_final_project - Sheet1.csv"
+    out=exp_data
+    dbms=csv
+    replace;
+    getnames=yes;
+run;
+
+proc print data=exp_data;
+run;
+
+proc contents data=exp_data;
+run;
+
+
+proc glm data=exp_data plots=diagnostics;
+class Brand Liquid_Type;
+model Absorbed=Brand | Liquid_Type  /ss3;
+lsmeans Brand / pdiff adjust=tukey cl alpha=0.05;
+run;
